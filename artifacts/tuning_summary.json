@@ -1,0 +1,257 @@
+{
+  "best_cfg": {
+    "C": {
+      "n_estimators": 628,
+      "max_depth": 6,
+      "learning_rate": 0.03,
+      "subsample": 0.8,
+      "colsample_bytree": 0.8
+    },
+    "D": {
+      "n_estimators": 484,
+      "max_depth": 8,
+      "learning_rate": 0.03,
+      "subsample": 0.8,
+      "colsample_bytree": 0.8
+    },
+    "E": {
+      "n_estimators": 339,
+      "max_depth": 6,
+      "learning_rate": 0.05,
+      "subsample": 1.0,
+      "colsample_bytree": 0.8
+    },
+    "F": {
+      "n_estimators": 330,
+      "max_depth": 8,
+      "learning_rate": 0.03,
+      "subsample": 1.0,
+      "colsample_bytree": 0.8
+    }
+  },
+  "top5": {
+    "C": [
+      {
+        "colsample_bytree": 0.8,
+        "learning_rate": 0.03,
+        "max_depth": 6,
+        "subsample": 0.8,
+        "n_estimators": 628,
+        "Val RMSE": 7.270904,
+        "Val MAE": 4.418547,
+        "Val MAPE (%)": 11.711446
+      },
+      {
+        "colsample_bytree": 0.8,
+        "learning_rate": 0.05,
+        "max_depth": 4,
+        "subsample": 0.8,
+        "n_estimators": 700,
+        "Val RMSE": 7.285755,
+        "Val MAE": 4.439494,
+        "Val MAPE (%)": 11.804587
+      },
+      {
+        "colsample_bytree": 0.8,
+        "learning_rate": 0.05,
+        "max_depth": 6,
+        "subsample": 0.8,
+        "n_estimators": 219,
+        "Val RMSE": 7.288074,
+        "Val MAE": 4.431451,
+        "Val MAPE (%)": 11.754545
+      },
+      {
+        "colsample_bytree": 0.8,
+        "learning_rate": 0.05,
+        "max_depth": 6,
+        "subsample": 1.0,
+        "n_estimators": 481,
+        "Val RMSE": 7.290154,
+        "Val MAE": 4.427888,
+        "Val MAPE (%)": 11.747284
+      },
+      {
+        "colsample_bytree": 0.8,
+        "learning_rate": 0.03,
+        "max_depth": 4,
+        "subsample": 0.8,
+        "n_estimators": 921,
+        "Val RMSE": 7.290424,
+        "Val MAE": 4.431782,
+        "Val MAPE (%)": 11.780719
+      }
+    ],
+    "D": [
+      {
+        "colsample_bytree": 0.8,
+        "learning_rate": 0.03,
+        "max_depth": 8,
+        "subsample": 0.8,
+        "n_estimators": 484,
+        "Val RMSE": 6.320763,
+        "Val MAE": 3.760716,
+        "Val MAPE (%)": 9.936584
+      },
+      {
+        "colsample_bytree": 0.8,
+        "learning_rate": 0.05,
+        "max_depth": 6,
+        "subsample": 0.8,
+        "n_estimators": 472,
+        "Val RMSE": 6.37281,
+        "Val MAE": 3.806201,
+        "Val MAPE (%)": 10.052551
+      },
+      {
+        "colsample_bytree": 0.8,
+        "learning_rate": 0.05,
+        "max_depth": 8,
+        "subsample": 1.0,
+        "n_estimators": 175,
+        "Val RMSE": 6.390203,
+        "Val MAE": 3.811244,
+        "Val MAPE (%)": 10.065789
+      },
+      {
+        "colsample_bytree": 0.8,
+        "learning_rate": 0.03,
+        "max_depth": 6,
+        "subsample": 0.8,
+        "n_estimators": 441,
+        "Val RMSE": 6.394137,
+        "Val MAE": 3.835377,
+        "Val MAPE (%)": 10.171769
+      },
+      {
+        "colsample_bytree": 0.8,
+        "learning_rate": 0.03,
+        "max_depth": 6,
+        "subsample": 1.0,
+        "n_estimators": 596,
+        "Val RMSE": 6.394629,
+        "Val MAE": 3.841933,
+        "Val MAPE (%)": 10.189114
+      }
+    ],
+    "E": [
+      {
+        "colsample_bytree": 0.8,
+        "learning_rate": 0.05,
+        "max_depth": 6,
+        "subsample": 1.0,
+        "n_estimators": 339,
+        "Val RMSE": 6.936703,
+        "Val MAE": 4.238065,
+        "Val MAPE (%)": 11.320297
+      },
+      {
+        "colsample_bytree": 0.8,
+        "learning_rate": 0.05,
+        "max_depth": 6,
+        "subsample": 0.8,
+        "n_estimators": 322,
+        "Val RMSE": 6.941878,
+        "Val MAE": 4.259023,
+        "Val MAPE (%)": 11.453067
+      },
+      {
+        "colsample_bytree": 0.8,
+        "learning_rate": 0.03,
+        "max_depth": 6,
+        "subsample": 0.8,
+        "n_estimators": 834,
+        "Val RMSE": 6.942134,
+        "Val MAE": 4.247155,
+        "Val MAPE (%)": 11.382975
+      },
+      {
+        "colsample_bytree": 0.8,
+        "learning_rate": 0.03,
+        "max_depth": 8,
+        "subsample": 0.8,
+        "n_estimators": 352,
+        "Val RMSE": 6.94565,
+        "Val MAE": 4.237826,
+        "Val MAPE (%)": 11.378072
+      },
+      {
+        "colsample_bytree": 0.8,
+        "learning_rate": 0.03,
+        "max_depth": 8,
+        "subsample": 1.0,
+        "n_estimators": 255,
+        "Val RMSE": 6.948174,
+        "Val MAE": 4.240487,
+        "Val MAPE (%)": 11.340781
+      }
+    ],
+    "F": [
+      {
+        "colsample_bytree": 0.8,
+        "learning_rate": 0.03,
+        "max_depth": 8,
+        "subsample": 1.0,
+        "n_estimators": 330,
+        "Val RMSE": 6.352003,
+        "Val MAE": 3.805593,
+        "Val MAPE (%)": 10.083343
+      },
+      {
+        "colsample_bytree": 0.8,
+        "learning_rate": 0.03,
+        "max_depth": 8,
+        "subsample": 0.8,
+        "n_estimators": 388,
+        "Val RMSE": 6.353646,
+        "Val MAE": 3.814893,
+        "Val MAPE (%)": 10.131403
+      },
+      {
+        "colsample_bytree": 0.8,
+        "learning_rate": 0.05,
+        "max_depth": 6,
+        "subsample": 0.8,
+        "n_estimators": 446,
+        "Val RMSE": 6.363157,
+        "Val MAE": 3.835067,
+        "Val MAPE (%)": 10.18096
+      },
+      {
+        "colsample_bytree": 0.8,
+        "learning_rate": 0.05,
+        "max_depth": 8,
+        "subsample": 0.8,
+        "n_estimators": 251,
+        "Val RMSE": 6.371353,
+        "Val MAE": 3.81439,
+        "Val MAPE (%)": 10.132854
+      },
+      {
+        "colsample_bytree": 0.8,
+        "learning_rate": 0.05,
+        "max_depth": 6,
+        "subsample": 1.0,
+        "n_estimators": 354,
+        "Val RMSE": 6.404231,
+        "Val MAE": 3.863305,
+        "Val MAPE (%)": 10.219532
+      }
+    ]
+  },
+  "seeds": [
+    42,
+    7,
+    13,
+    21,
+    99,
+    100,
+    123,
+    2024,
+    777,
+    888
+  ],
+  "grid_count": 12,
+  "max_trees": 2000,
+  "early_stopping_rounds": 50
+}

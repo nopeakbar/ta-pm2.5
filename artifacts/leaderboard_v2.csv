@@ -1,0 +1,12 @@
+Kode,Model,RMSE,MAE,MAPE (%),R2,Delta vs Raw (sama regime),Delta efek tuning (set sama)
+A,Naive Persistence,7.933,5.019,10.50,0.838,-,-
+B,Linear Regression (Full),6.947,4.661,10.42,0.876,-,-
+B2,Linear Regression (Raw),6.932,4.324,9.15,0.876,-,-
+C,XGBoost Skenario 1 (Raw) - default,6.108 ± 0.009,3.806 ± 0.014,8.28 ± 0.03,0.904 ± 0.000,-,-
+D,XGBoost Skenario 2 (Raw + Temporal) - default,5.875 ± 0.045,3.659 ± 0.044,8.25 ± 0.11,0.911 ± 0.001,-3.81 ± 0.75 (lebih baik di 10/10 seed),-
+E,XGBoost Skenario 3 (Raw + Iklim) - default,6.040 ± 0.022,3.789 ± 0.031,8.52 ± 0.08,0.906 ± 0.001,-1.12 ± 0.46 (lebih baik di 10/10 seed),-
+F,XGBoost Skenario 4 (Full Engineered) - default,5.891 ± 0.028,3.699 ± 0.035,8.37 ± 0.09,0.911 ± 0.001,-3.55 ± 0.48 (lebih baik di 10/10 seed),-
+C',XGBoost Skenario 1 (Raw) - TUNED,6.075 ± 0.022,3.791 ± 0.012,8.27 ± 0.02,0.905 ± 0.001,-,-0.54 ± 0.40 (lebih baik di 9/10 seed)
+D',XGBoost Skenario 2 (Raw + Temporal) - TUNED,5.796 ± 0.025,3.580 ± 0.022,8.03 ± 0.05,0.913 ± 0.001,-4.60 ± 0.62 (lebih baik di 10/10 seed),-1.35 ± 0.85 (lebih baik di 9/10 seed)
+E',XGBoost Skenario 3 (Raw + Iklim) - TUNED,6.038 ± 0.032,3.793 ± 0.031,8.54 ± 0.08,0.906 ± 0.001,-0.60 ± 0.66 (lebih baik di 9/10 seed),-0.02 ± 0.37 (lebih baik di 4/10 seed)
+F',XGBoost Skenario 4 (Full Engineered) - TUNED (= Model G),5.833 ± 0.021,3.602 ± 0.020,8.07 ± 0.06,0.912 ± 0.001,-3.99 ± 0.56 (lebih baik di 10/10 seed),-0.99 ± 0.57 (lebih baik di 10/10 seed)
