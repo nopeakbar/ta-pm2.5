@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Dashboard Evaluasi Prediksi PM2.5 DKI Jakarta</title>
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%230F766E'/%3E%3Ctext x='16' y='21' text-anchor='middle' font-size='14' font-family='sans-serif' font-weight='bold' fill='white'%3EPM%3C/text%3E%3C/svg%3E" />
+  <link rel="stylesheet" href="styles.css" />
+  <script src="assets/plotly.min.js" defer></script>
+  <script src="app.js" defer></script>
+</head>
+<body>
+  <div class="app-shell">
+    <aside class="sidebar" id="sidebar" aria-label="Panel Konfigurasi">
+      <div class="sidebar-head">
+        <h2>Panel Konfigurasi</h2>
+        <button class="mobile-close-btn" id="closeSidebarBtn" type="button" aria-label="Tutup panel">×</button>
+      </div>
+
+      <div class="control-group">
+        <label for="mainModelSelect">Model Evaluasi Utama</label>
+        <select id="mainModelSelect"></select>
+      </div>
+
+      <div class="control-group">
+        <label for="cmpModelSelect">Model Pembanding</label>
+        <select id="cmpModelSelect"></select>
+      </div>
+
+      <div class="control-group">
+        <span class="control-label">Preset Rentang Data Uji</span>
+        <div class="radio-stack" role="radiogroup" aria-label="Preset Rentang Data Uji">
+          <label class="radio-item"><input type="radio" name="datePreset" value="14d" checked /> 14 Hari Pertama (Seperti Laporan Fig. 2)</label>
+          <label class="radio-item"><input type="radio" name="datePreset" value="all" /> Seluruh Data Uji (3.945 Jam)</label>
+          <label class="radio-item"><input type="radio" name="datePreset" value="custom" /> Pilih Rentang Tanggal</label>
+        </div>
+        <div class="custom-dates hidden" id="customDatesBox">
+          <div>
+            <label for="dateStart">Dari</label>
+            <input type="date" id="dateStart" min="2026-04-22" max="2026-10-03" value="2026-04-22" />
+          </div>
+          <div>
+            <label for="dateEnd">Sampai</label>
+            <input type="date" id="dateEnd" min="2026-04-22" max="2026-10-03" value="2026-10-03" />
+          </div>
+        </div>
+      </div>
+
+      <div class="control-group">
+        <span class="control-label">Filter Sub-Segmen Kritis</span>
+        <div class="check-stack">
+          <label class="check-item"><input type="checkbox" id="chkPeak" /> <span id="lblPeak">Puncak Polusi (&gt;= P95: 87.0 µg/m³)</span></label>
+          <label class="check-item"><input type="checkbox" id="chkRush" /> Jam Sibuk (06–09 &amp; 16–19 WIB)</label>
+        </div>
+      </div>
+    </aside>
+
+    <main class="main-area">
+      <div class="mobile-bar">
+        <button class="mobile-open-btn" id="openSidebarBtn" type="button">☰ Panel Konfigurasi</button>
+      </div>
+
+      <header class="header-banner">
+        <h1 class="header-title">Dashboard Evaluasi Model Prediksi PM2.5 DKI Jakarta</h1>
+        <p class="header-sub">XGBoost Multi-Skenario · Data Per Jam Open-Meteo (CAMS &amp; ERA5) · 26.298 Baris × 30 Kolom (Uji: 3.945 Jam)</p>
+      </header>
+
+      <nav class="tab-bar" role="tablist" aria-label="Halaman Evaluasi">
+        <button class="tab-btn active" role="tab" aria-selected="true" aria-controls="panel-tab1" data-tab="tab1" type="button">Tab 1: Visualisasi Prediksi</button>
+        <button class="tab-btn" role="tab" aria-selected="false" aria-controls="panel-tab2" data-tab="tab2" type="button">Tab 2: Eksplorasi Dataset</button>
+        <button class="tab-btn" role="tab" aria-selected="false" aria-controls="panel-tab3" data-tab="tab3" type="button">Tab 3: Leaderboard &amp; XAI</button>
+      </nav>
+
+      <div id="loadingBanner" class="loading-box" role="status">Memuat artefak evaluasi dan data uji (3.945 jam)...</div>
+      <div id="errorBanner" class="alert-box hidden" role="alert"></div>
+
+      <section id="panel-tab1" class="tab-panel active" role="tabpanel">
+        <div id="emptyStateAlert" class="alert-warn hidden">
+          Tidak ada observasi Data Uji yang memenuhi kombinasi rentang tanggal dan filter sub-segmen saat ini. Silakan perlebar rentang tanggal atau matikan salah satu filter di panel kiri.
+        </div>
+        <div id="tab1Content">
+          <div class="kpi-grid-4" id="kpiGrid"></div>
+          <div class="card chart-card">
+            <div id="chartTimeSeries" class="plot-box"></div>
+          </div>
+          <div class="two-col-grid">
+            <div class="card">
+              <h3>Evaluasi Sub-Segmen Kritis (Data Uji)</h3>
+              <div class="table-wrap" id="subsegmentTableWrap"></div>
+              <p class="caption" id="subsegmentCaption"></p>
+            </div>
+            <div class="card">
+              <h3>Profil Siklus Diurnal &amp; Galat per Jam</h3>
+              <div class="inline-radios" role="radiogroup" aria-label="Pilih tampilan siklus">
+                <label class="radio-item"><input type="radio" name="cycleOpt" value="diurnal" checked /> Pola Diurnal 24 Jam (PM2.5, Angin &amp; Titik Embun)</label>
+                <label class="radio-item"><input type="radio" name="cycleOpt" value="monthly" /> Pola Musiman Bulanan (Seluruh Data)</label>
+                <label class="radio-item"><input type="radio" name="cycleOpt" value="hourly_mae" /> Galat MAE per Jam (Data Uji)</label>
+              </div>
+              <div id="chartCycle" class="plot-box"></div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section id="panel-tab2" class="tab-panel hidden" role="tabpanel">
+        <div class="kpi-grid-3" id="splitCards"></div>
+        <div class="card">
+          <h3>Tabel Grid Interaktif: Matriks 29 Fitur Hasil Rekayasa + Target</h3>
+          <div class="filter-bar-4">
+            <div>
+              <label for="segSelect">Segmen Partisi</label>
+              <select id="segSelect">
+                <option value="test">Data Uji (Test - 3.945)</option>
+                <option value="val">Data Validasi (Val - 3.945)</option>
+                <option value="train">Data Latih (Train - 18.408)</option>
+                <option value="all">Seluruh Dataset (26.298)</option>
+              </select>
+            </div>
+            <div>
+              <label for="grpSelect">Kelompok Fitur</label>
+              <select id="grpSelect"></select>
+            </div>
+            <div>
+              <label for="rowsLimitSelect">Batas Baris Tampilan</label>
+              <select id="rowsLimitSelect">
+                <option value="50">50 baris</option>
+                <option value="100">100 baris</option>
+                <option value="250" selected>250 baris</option>
+              </select>
+            </div>
+            <div class="btn-align-end">
+              <button class="btn-secondary" id="downloadCsvBtn" type="button">Unduh Slice CSV</button>
+            </div>
+          </div>
+          <div class="table-wrap table-scroll-tall" id="datasetTableWrap"></div>
+        </div>
+
+        <div class="two-col-grid tab2-bottom">
+          <div class="card">
+            <h3>Statistik Deskriptif (Target &amp; 29 Fitur Prediktor)</h3>
+            <div class="table-wrap table-scroll-med" id="descStatsTableWrap"></div>
+          </div>
+          <div class="card">
+            <h3>Diagnostik Resolusi Temporal CAMS</h3>
+            <div class="table-wrap" id="camsDiagTableWrap"></div>
+            <p class="caption">Rerata |d²| seimbang di jam mod 3 = 0, 1, 2 (5,07–6,45; fraksi datar 5,4–6,2%) → bukan interpolasi linier kaku.</p>
+          </div>
+        </div>
+      </section>
+
+      <section id="panel-tab3" class="tab-panel hidden" role="tabpanel">
+        <div class="card">
+          <h3>Papan Peringkat (Leaderboard) 11 Model Studi Ablasi — Data Uji (10 Random Seeds)</h3>
+          <div id="chartLeaderboard" class="plot-box"></div>
+          <div class="table-wrap" id="leaderboardTableWrap"></div>
+        </div>
+
+        <div class="two-col-grid">
+          <div class="card">
+            <h3>Top 15 Fitur Terpenting (Model G, Data Uji)</h3>
+            <div class="inline-radios" role="radiogroup" aria-label="Metrik XAI">
+              <label class="radio-item"><input type="radio" name="xaiMode" value="perm" checked /> Permutation Importance (Kenaikan RMSE µg/m³)</label>
+              <label class="radio-item"><input type="radio" name="xaiMode" value="gain" /> Gain Importance (XGBoost Tree Split)</label>
+            </div>
+            <div id="chartXai" class="plot-box"></div>
+            <h4 class="sub-table-title">Total Kontribusi per Kategori Fitur (Permutation vs Gain)</h4>
+            <div class="table-wrap" id="categoryTotalsTableWrap"></div>
+          </div>
+          <div class="card">
+            <h3>Ringkasan Konfigurasi Optimal Hasil Tuning</h3>
+            <div class="table-wrap" id="bestCfgTableWrap"></div>
+            <h4 class="sub-table-title">Top 5 Kombinasi ParameterGrid — Set 4 Full (Data Validasi)</h4>
+            <div class="table-wrap" id="top5TuningTableWrap"></div>
+            <p class="caption" id="tuningProtocolCaption"></p>
+          </div>
+        </div>
+      </section>
+    </main>
+  </div>
+</body>
+</html>
